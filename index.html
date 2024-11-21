@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Letter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #fff4e6;
+      background-image: url('https://www.transparenttextures.com/patterns/coffee-stain.png');
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      width: 320px;
+    }
+
+    /* Envelope design */
+    .envelope {
+      width: 300px;
+      height: 180px;
+      background: #e08b7d;
+      position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      background-image: url('https://image.shutterstock.com/image-vector/hand-drawn-heart-pattern-background-260nw-1720397479.jpg');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .envelope .heart-gif {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+    }
+
+    .envelope:before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 50%;
+      background: #c66457;
+      top: 0;
+      left: 0;
+      clip-path: polygon(50% 100%, 100% 0, 0 0);
+      transition: transform 0.4s ease;
+    }
+
+    .envelope:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .envelope:hover:before {
+      transform: rotateX(180deg);
+    }
+
+    /* Letter page 1 */
+    .letter-page-1 {
+      display: none;
+      background: white;
+      padding: 20px;
+      width: 300px;
+      max-width: 90%;
+      border: 2px solid #d17466;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
+      line-height: 1.8;
+      text-align: left;
+      font-size: 16px;
+      font-family: 'Great Vibes', cursive;
+      position: relative;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .container.opened .letter-page-1 {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Letter page 2 (second page) */
+    .letter-page-2 {
+      display: none;
+      background: white;
+      padding: 20px;
+      width: 300px;
+      max-width: 90%;
+      border: 2px solid #d17466;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
+      line-height: 1.8;
+      text-align: left;
+      font-size: 16px;
+      font-family: 'Great Vibes', cursive;
+      position: relative;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .container.page-2 .letter-page-2 {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .signature {
+      margin-top: 20px;
+      font-style: italic;
+      text-align: right;
+      color: #d17466;
+    }
+
+    /* Close Button */
+    .close-button {
+      background-color: #e08b7d;
+      border: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .close-button:hover {
+      background-color: #c66457;
+    }
+
+    /* Button to go to page 2 */
+    .next-page-button {
+      background-color: #c66457;
+      border: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .next-page-button:hover {
+      background-color: #e08b7d;
+    }
+
+    .gif-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      justify-items: center;
+      margin-top: 20px;
+    }
+
+    .gif-container img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    /* Mobile-friendly adjustments */
+    @media (max-width: 600px) {
+      .envelope {
+        width: 250px;
+        height: 160px;
+      }
+
+      .letter-page-1, .letter-page-2 {
+        font-size: 14px;
+        padding: 15px;
+      }
+
+      .gif-container {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gif-container img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="loveLetterContainer" role="main">
+    <div class="envelope" onclick="openLetter()" title="Click to open the letter" aria-label="Envelope with heart">
+      <img src="cute1.gif" alt="Animated heart inside envelope" class="heart-gif">
+    </div>
+
+    <!-- Page 1 of the letter -->
+    <div class="letter-page-1" aria-hidden="true">
+      <p>Dearest Love,</p>
+      <p>
+        Like the stars that grace the night,<br>
+        Your smile brings my world its light.<br>
+        In every whisper of the breeze,<br>
+        My heart finds solace, feels at ease.
+      </p>
+      <p>
+        Through endless days and timeless skies,<br>
+        I see the universe in your eyes.<br>
+        You are my dream, my gentle muse,<br>
+        The melody my soul would choose.
+      </p>
+      <p class="signature">Forever yours, <br>Cary</p>
+
+      <!-- Button to go to the second page -->
+      <button class="next-page-button" onclick="showSecondPage()">Next Page</button>
+    </div>
+
+    <!-- Page 2 of the letter (with 6 GIFs) -->
+    <div class="letter-page-2" aria-hidden="true">
+      <p>Some special moments...</p>
+
+      <!-- GIFs container -->
+      <div class="gif-container" role="region" aria-labelledby="special-moments">
+        <img src="Giif1.gif" alt="Romantic GIF 1">
+        <img src="Giif2.gif" alt="Romantic GIF 2">
+        <img src="Giif3.gif" alt="Romantic GIF 3">
+        <img src="Giif4.gif" alt="Romantic GIF 4">
+        <img src="Giif5.gif" alt="Romantic GIF 5">
+        <img src="Giif6.gif" alt="Romantic GIF 6">
+      </div>
+
+      <!-- Close Button -->
+      <button class="close-button" onclick="closeLetter()" aria-label="Close the letter">Close Letter</button>
+    </div>
+  </div>
+
+  <script>
+    function openLetter() {
+      const container = document.getElementById('loveLetterContainer');
+      container.classList.add('opened');
+    }
+
+    function closeLetter() {
+      const container = document.getElementById('loveLetterContainer');
+      container.classList.remove('opened');
+      container.classList.remove('page-2');  // Remove page 2 view
+    }
+
+    function showSecondPage() {
+      const container = document.getElementById('loveLetterContainer');
+      container.classList.add('page-2');
+    }
+  </script>
+</body>
+</html>
